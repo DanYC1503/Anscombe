@@ -1,9 +1,7 @@
 # Anscombe
 
-##Universidad Politecnica Salesiana
+## Universidad Politécnica Salesiana
 
-###Carrera: Computacion
-
-###Periodo 2025 - 2025
-
-##Estudiante: Daniel Yanza
+**Carrera:** Computación  
+**Periodo:** 2025 - 2025  
+**Estudiante:** Daniel Yanza
