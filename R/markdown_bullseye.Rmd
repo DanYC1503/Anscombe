@@ -1,0 +1,128 @@
+---
+title: "DataSaurus_p66"
+author: "Daniel Yanza"
+date: "2025-04-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Cargamos las librerías necesarias para las funciones necesarias para la practica:
+
+tidyverse: Es un conjunto de paquetes diseñados para trabajar con datos de manera ordenada y coherente. Incluye ggplot2, dplyr y read. Proporciona herramientas para manipulación, transformación y visualización de datos.
+
+datasauRus: Contiene el famoso conjunto de datos “Datasaurus Dozen”, el cual se usa para demostrar cómo diferentes distribuciones de datos pueden tener estadísticas similares pero estructuras gráficas muy distintas. 
+
+dplyr: Forma parte del tidyverse y ofrece funciones potentes para la manipulación y transformación eficiente de conjuntos de datos.
+
+ggplot2: También incluido en el tidyverse, permite crear gráficos sofisticados y personalizables de manera sencilla mediante la gramática de los gráficos..
+
+```{r install_packages}
+# Instalar paquetes requeridos si no están presentes
+packages <- c("ggplot2", "tidyverse", "datasauRus", "dplyr")
+install_if_missing <- function(pkg) {
+  if (!requireNamespace(pkg, quietly = TRUE)) install.packages(pkg)
+}
+lapply(packages, install_if_missing)
+
+# Cargar librerías
+library(ggplot2)
+library(tidyverse)
+library(datasauRus)
+library(dplyr)
+
+print("Inicio del código")
+```
+## Resumen del Conjunto de Datos
+
+Aqui presento las estadísticas descriptivas para cada subconjunto del dataset datasaurus_dozen. Se calculan la media y desviación estándar de las variables x e y, junto con la correlación entre ellas. Estos indicadores permiten comparar los diferentes conjuntos y muestran que, aunque las métricas estadísticas puedan parecer similares, la forma de los datos puede ser completamente distinta al representarlos gráficamente.
+
+Este ejercicio destaca la relevancia de utilizar visualizaciones junto con el análisis numérico, ya que apoyarse únicamente en valores estadísticos podría generar conclusiones engañosas sobre la verdadera naturaleza de los datos.
+```{r summary_stats}
+# Resumir el dataset
+dataset_summary <- datasaurus_dozen %>%
+  group_by(dataset) %>%
+  summarize(
+    mean_x = mean(x),
+    mean_y = mean(y),
+    std_dev_x = sd(x),
+    std_dev_y = sd(y),
+    corr_x_y = cor(x, y)
+  )
+
+# Mostrar estadísticas resumidas
+print(dataset_summary)
+```
+## Visualización del dataset
+
+En esta sección se visualizan todos los subconjuntos incluidos en el dataset datasaurus_dozen. Cada uno presenta diferencias notables en su forma, a pesar de compartir características estadísticas similares. Esto permite evidenciar la diversidad en la distribución de los datos cuando se los representa gráficamente.
+
+```{r dataset_dozen_data, echo=FALSE}
+ggplot(datasaurus_dozen, aes(x=x, y=y, colour = dataset))+
+  geom_point()+
+  theme_void()+
+  theme(legend.position = "none")+
+  facet_wrap(~dataset, ncol = 3)
+```
+
+## Extraccion de los datos Bullseye
+
+Aqui, nos centramos exclusivamente en el conjunto de datos bullseye. Primero se filtran sus registros y se muestra una vista preliminar para verificar que los datos han sido seleccionados correctamente.
+
+```{r plot_data, echo=FALSE}
+# Filtrar el dataset para obtener solo los datos del bullseye (mi dataset)
+bullseye_data <- datasaurus_dozen %>% 
+  filter(dataset == "bullseye")
+# 
+# Mostrar los primeros registros para verificar
+head(bullseye_data)
+```
+
+## Visualización de solo la grafica del bullseye
+
+En esta sección se muestra únicamente la gráfica correspondiente al conjunto de datos bullseye. Es posible observar varias elipses concéntricas, una dentro de otra, lo que le da una forma distintiva y resalta la particularidad de su distribución.
+
+```{r filter_data, echo=FALSE}
+# Graficar solo los datos del conjunto bullseye
+ggplot(bullseye_data, aes(x = x, y = y)) +
+  geom_point(color = "orange") +
+  theme_minimal() +
+  ggtitle("Bullseye Dataset")
+
+```
+
+## Regresion lineal
+
+En esta parte del análisis, se aplica un modelo de regresión lineal simple al conjunto de datos bullseye, utilizando la variable x como predictora de y. Para ello, se usa la función lm() de R, que ajusta una línea recta que mejor representa la relación entre ambas variables.
+
+A continuación, se muestra un resumen del modelo ajustado, que incluye coeficientes, errores estándar y el valor de R², entre otros indicadores estadísticos.
+
+Finalmente, se genera una visualización que superpone la línea de regresión (en rojo) sobre los datos originales (en azul), permitiendo evaluar visualmente el ajuste del modelo a la forma particular del conjunto bullseye.
+
+```{r}
+# Ajustar un modelo lineal
+lm_model <- lm(y ~ x, data = bullseye_data)
+
+# Resumen del modelo
+summary(lm_model)
+
+# Graficar los datos con la línea de regresión
+ggplot(bullseye_data, aes(x = x, y = y)) +
+  geom_point(color = "blue") +           # Puntos de los datos
+  geom_smooth(method = "lm", color = "red", se = FALSE) +  # Línea de regresión
+  theme_minimal() +
+  ggtitle("Bullseye Dataset with Linear Model")
+
+```
+
+## Regresión Lineal Manual
+
+En esta sección se presenta una visualización previa a la implementación en R, donde se predice cómo sería la regresión lineal del dataset. Se puede notar que la dirección de la línea predicha se aproxima bastante a la del modelo calculado. Aunque la pendiente de la línea manual es ligeramente mayor, esta comparación permite confirmar que tanto el cálculo manual como el resultado en R muestran una similitud notable.
+
+```{r hand_data, echo=FALSE}
+knitr::include_graphics("bullseye.jpeg")
+```
