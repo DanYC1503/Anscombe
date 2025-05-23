@@ -24,3 +24,31 @@ El conjunto de datos de Anscombe es una famosa colección de cuatro pares de var
 A continuación, se presentan los gráficos de las cuatro parejas de datos, mostrando cómo cada una tiene una relación distinta a pesar de sus similitudes estadísticas.
 
 ![Gráficos de las parejas x-y del dataset Anscombe](https://github.com/user-attachments/assets/b058c055-224d-4225-85dc-27446f007440)
+
+
+## Origen del Dataset
+
+El dataset utilizado fue obtenido de Kaggle:  
+[Anscombe's Quartet Dataset en Kaggle](https://www.kaggle.com/datasets/carlmcbrideellis/data-anscombes-quartet)
+
+---
+
+## Estructura del Repositorio
+
+📂 **Directorio data/** - Conjuntos de datos utilizados
+
+Datasets utilizados en la práctica, los cuales estan nombrados como `df_anscombe.csv` y `datasaurus.csv`
+
+📂 **Directorio R/** - Código fuente en R
+
+El archivo `markdown_bullseye.Rmd` que es el libro editable y su vista en HTML llamada `markdown_bullseye.html`
+
+📂 **Herramienta usada para regresión lineal**
+
+Se utilizó R, y la visualizacion de su implementacion esta en el directorio `/R`
+
+---
+
+🌐 **Repositorio público**
+
+📁 GitHub: [https://github.com/DanYC1503/Anscombe.git](https://github.com/DanYC1503/Anscombe.git)
